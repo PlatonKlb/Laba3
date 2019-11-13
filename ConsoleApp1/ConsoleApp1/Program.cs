@@ -3,55 +3,186 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-namespace ConsoleApp1
+using System.Threading.Tasks;namespace ConsoleApp1
 {
     public class Student
-    {
+    {                           //Конструктор
         public string id;
         public string name;
-        public DateTime dateOfBirth;
+        public DateTime dateOfBirth;            //DateTime - структура преднозначенная для работы с датой и временем
         public string instute;
         public string course;
         public string group;
-        public float averagePoints;
-
-        public string GetStudentInfo()
-        {
-            return $"{id} {name} {dateOfBirth.ToString("dd.MM.yyyy")} {instute} {course} {group} {averagePoints}";
-        }
-
-        public void Print()
-        {
-            Console.WriteLine($"ID: {id} ФИО: {name} Дата рождения: {dateOfBirth.ToString("dd.MM.yyyy")} Институт: {instute} Курс: {course} Группа: {group} Средний балл: {averagePoints}");
-        }
-    }
-
-    public class DB
-    {
-        public List<Student> students = new List<Student>();
-
-        public void Menu()
+        public float averagePoints;        public void Modify()            //Функция отвечающая за изменение данных студента
         {
             string input = "";
 
-            Console.WriteLine("\tЗдравствуйте! Введите номер функции или \"stop\" для выхода из программы\n" +
+            Console.WriteLine("\tВыберите функцию:" +
+                "\n 1. ФИО" +
+                "\n 2. Дата рождения" +
+                "\n 3. Институт" +
+                "\n 4. Курс" +
+                "\n 5. Группа" +
+                "\n 6. Средний балл" +
+                "\n 7. Введите stop для выхода из этого меню");
+
+            while(input != "stop")
+            {
+                input = Console.ReadLine();
+                switch(input)
+                {
+                    case "1":
+                        Console.Write("Введите новые данные ");
+                        name = Console.ReadLine();
+                        Console.Write("Данные студента успешно обновлены\n");
+                        break;
+                    case "2":
+                        Console.Write("Введите новые данные ");
+                        dateOfBirth = DateTime.Parse(Console.ReadLine());
+                        Console.Write("Данные студента успешно обновлены\n");
+                        break;
+                    case "3":
+                        Console.Write("Введите новые данные ");
+                        instute = Console.ReadLine();
+                        Console.Write("Данные студента успешно обновлены\n");
+                        break;
+                    case "4":
+                        Console.Write("Введите новые данные ");
+                        course = Console.ReadLine();
+                        Console.Write("Данные студента успешно обновлены\n");
+                        break;
+                    case "5":
+                        Console.Write("Введите новые данные ");
+                        group = Console.ReadLine();
+                        Console.Write("Данные студента успешно обновлены\n");
+                        break;
+                    case "6":
+                        Console.Write("Введите новые данные ");
+                        averagePoints = float.Parse(Console.ReadLine());
+                        Console.Write("Данные студента успешно обновлены\n");
+                        break;
+                    case "stop":
+                        break;
+                    default:            //Защита от дурака
+                        Console.WriteLine("Не коректный ввод данных, введите число!");
+                        break;
+                }
+            }
+        }        public string GetStudentInfo()          //Функция отвечает за формат данных о студенте
+        {
+            return $"{id} {name} {dateOfBirth.ToString("dd.MM.yyyy")} {instute} {course} {group} {averagePoints}";
+        }        public void Print()         //Функция отвечает за вывод стедентов
+        {
+            Console.WriteLine($"ID: {id} ФИО: {name} Дата рождения: {dateOfBirth.ToString("dd.MM.yyyy")} Институт: {instute} Курс: {course} Группа: {group} Средний балл: {averagePoints}");
+        }
+    }    public class DB
+    {
+        public List<Student> students = new List<Student>();            //Создаем лист студентов
+
+        public void Menu()          //Основное меню
+        {
+            string input = "";            Console.WriteLine("\tЗдравствуйте! Введите номер функции или \"stop\" для выхода из программы\n" +
                 "\n1. Вывести список студентов" +
                 "\n2. Добавление студентов" +
-                "\n3. Модификация списка студентов" +
-                "\n4. Удаление студентов из списка" +
-                "\n5. Сортировка по ФИО" +
-                "\n6. Сортировка по дате" +
-                "\n7. Обратная сортировка по ФИО" +
-                "\n8. Обратная сортировка по дате" +
-                "\n9. Поиск студентов по ФИО" +
-                "\n10. Поиск студентов по дате рождения" +
-                "\n11. Нахождение максимального среднего балла" +
-                "\n12. Нахождение минимального среднего балла" +
-                "\n13. Нахождение среднего балла" +
-                "\n14. Нахождение суммы средних баллов" +
-                "\n15. Сохранить данные в файл");
+                "\n3. Сортировка по ФИО" +
+                "\n4. Сортировка по дате" +
+                "\n5. Обратная сортировка по ФИО" +
+                "\n6. Обратная сортировка по дате" +
+                "\n7. Поиск студентов по ФИО" +
+                "\n8. Поиск студентов по дате рождения" +
+                "\n9. Нахождение максимального среднего балла" +
+                "\n10. Нахождение минимального среднего балла" +
+                "\n11. Нахождение среднего балла" +
+                "\n12. Нахождение суммы средних баллов" +
+                "\n13. Сохранить данные в файл");            while (input != "stop")
+            {
+                Console.Write("\nВведите номер функции: ");
+                input = Console.ReadLine();                switch (input)
+                {
+                    case "1":
+                        StudentsMenu(students);
+                        break;
+                    case "2":
+                        Add(StudentsParseService.GetStudents());
+                        break;
+                    case "3":
+                        Sort((x, y) => x.name.CompareTo(y.name));
+                        break;
+                    case "4":
+                        Sort((x, y) => x.dateOfBirth.CompareTo(y.dateOfBirth));
+                        break;
+                    case "5":
+                        Sort((x, y) => -x.name.CompareTo(y.name));
+                        break;
+                    case "6":
+                        Sort((x, y) => -x.dateOfBirth.CompareTo(y.dateOfBirth));
+                        break;
+                    case "7":
+                        Console.Write("Введите ФИО: ");
+                        input = Console.ReadLine();
+                        StudentsMenu(Search(x => x.name.Contains(input)));
+                        break;
+                    case "8":
+                        Console.Write("Введите дату рождения: ");
+                        input = Console.ReadLine();
+                        StudentsMenu(Search(x => x.dateOfBirth == DateTime.Parse(input)));
+                        break;
+                    case "9":
+                        Max();
+                        break;
+                    case "10":
+                        Min();
+                        break;
+                    case "11":
+                        Average();
+                        break;
+                    case "12":
+                        Sum();
+                        break;
+                    case "13":
+                        SaveToFile();
+                        break;
+                    default:            //Защита от дурака
+                        Console.WriteLine($"Упс! Функция \"{input}\" не найдена");
+                        break;
+                }
+            }
+        }
+        public void StudentsMenu(List<Student> students)            //Функция вызывающая личное меню студента
+        {
+            Print(students);
+
+            if (students.Count == 0)
+                return;
+
+            string input = "";
+
+            while(input != "stop")
+            {
+                Console.Write("Выберите студента: ");
+                input = Console.ReadLine();
+
+                try
+                {
+                    int index = int.Parse(input);
+                    PodMenu(students[index]);
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Не коректный ввод данных, введите число!");
+                    break;
+                }
+            }
+        }
+        public void PodMenu(Student student)            //Личное меню студента
+        {
+            string input = "";
+            Int32 n;
+            Console.WriteLine($"Что вы хотите сделать с {student.name}?" +
+                "\n1. Изменить" +
+                "\n2. Удалить" +
+                "\n3. Напишите stop для выхода в основное меню");
 
             while (input != "stop")
             {
@@ -60,126 +191,47 @@ namespace ConsoleApp1
 
                 switch (input)
                 {
-                    case "1":
-                        Print();
+                    case "1":                        student.Modify();                        return;
+                    case "2":                        Delete(student);                        return;
+                    case "stop":
                         break;
-                    case "2":
-                        Add(StudentsParseService.GetStudents());
-                        break;
-                    case "3":
-                        Modify(StudentsParseService.GetStudents());
-                        break;
-                    case "4":
-                        Delete(StudentsParseService.GetStudents());
-                        break;
-                    case "5":
-                        Sort((x, y) => x.name.CompareTo(y.name));
-                        break;
-                    case "6":
-                        Sort((x, y) => x.dateOfBirth.CompareTo(y.dateOfBirth));
-                        break;
-                    case "7":
-                        Sort((x, y) => -x.name.CompareTo(y.name));
-                        break;
-                    case "8":
-                        Sort((x, y) => -x.dateOfBirth.CompareTo(y.dateOfBirth));
-                        break;
-                    case "9":
-                        Console.Write("Введите ФИО: ");
-                        input = Console.ReadLine();
-                        Search(x => x.name == input);
-                        break;
-                    case "10":
-                        Console.Write("Введите дату рождения: ");
-                        input = Console.ReadLine();
-                        Search(x => x.dateOfBirth == DateTime.Parse(input));
-                        break;
-                    case "11":
-                        Max();
-                        break;
-                    case "12":
-                        Min();
-                        break;
-                    case "13":
-                        Average();
-                        break;
-                    case "14":
-                        Sum();
-                        break;
-                    case "15":
-                        SaveToFile();
-                        break;
-                    default:
-                        Console.WriteLine($"Упс! Функция \"{input}\" не найдена");
-                        break;
-                }
+                    default:                        Console.WriteLine("Не коректный ввод данных, введите число!");                        break;                }
             }
         }
-
-        void Add(List<Student> students)
+        void Add(List<Student> students)            //Добавление студента(ов)
         {
             foreach (Student s in students)
                 if (!this.students.Any(x => x.id == s.id))
                     this.students.Add(s);
                 else
-                    Console.WriteLine($"Студент с ID: {s.id} уже существует в базе и не может быть добавлен повторно");
-
-            if (students.Count != 0)
+                    Console.WriteLine($"Студент с ID: {s.id} уже существует в базе и не может быть добавлен повторно");            if (students.Count != 0)
                 Console.WriteLine("Информация о студентах успешно добавлена");
-        }
-
-        void Modify(List<Student> students)
+        }        void Modify(List<Student> students)         //Изменение студента(ов)
         {
             foreach (Student s in students)
             {
-                int indexOfStudentToModify = this.students.FindIndex(x => x.id == s.id);
-
-                if (indexOfStudentToModify != -1)
+                int indexOfStudentToModify = this.students.FindIndex(x => x.id == s.id);                if (indexOfStudentToModify != -1)
                     this.students[indexOfStudentToModify] = s;
-            }
-
-            if (students.Count != 0)
+            }            if (students.Count != 0)
                 Console.WriteLine("Информация о студентах успешно обновлена");
-        }
-
-        void Delete(List<Student> students)
+        }        void Delete(Student student)            //Удаление студента
         {
-            foreach (Student s in students)
-                this.students.RemoveAll(x => x.id == s.id);
+            this.students.RemoveAll(x => x.id == student.id);
 
-            if (students.Count != 0)
-                Console.WriteLine("Информация о студентах успешно удалена");
-        }
-
-        void Sort(Comparison<Student> comparer)
+            Console.WriteLine("Информация о студенте успешно удалена");
+        }        void Sort(Comparison<Student> comparer)         //Сортировка
         {
             students.Sort(comparer);
             Console.WriteLine("Сортировка успешно завершена");
-        }
-
-        void Search(Predicate<Student> predicate)
+        }        List<Student> Search(Predicate<Student> predicate)          //Поиск
         {
-            List<Student> studentsFound = students.FindAll(predicate);
-
-            foreach (Student s in studentsFound)
-                s.Print();
-
-            if (studentsFound.Count == 0)
-                Console.WriteLine("Информации о студентах не найдено");
-        }
-
-        void Average()
+            return students.FindAll(predicate);
+        }        void Average()          //Средний балл
         {
-            float average = 0;
-
-            foreach (Student s in students)
-                average += s.averagePoints;
-
-            average = average / students.Count;
+            float average = 0;            foreach (Student s in students)
+                average += s.averagePoints;            average = average / students.Count;
             Console.WriteLine($"Средний балл: {average}");
-        }
-
-        void Min()
+        }        void Min()          //Поиск минимального балла
         {
             float min = 0;
             try
@@ -194,9 +246,7 @@ namespace ConsoleApp1
             {
                 Console.WriteLine($"Минимальный балл: {min}");
             }
-        }
-
-        void Max()
+        }        void Max()          //Поиск максимального балла
         {
             float max = 0;
             try
@@ -211,35 +261,17 @@ namespace ConsoleApp1
             {
                 Console.WriteLine($"Максимальный балл: {max}");
             }
-        }
-
-        void Sum()
+        }        void Sum()          //Сумма средних баллов
         {
-            float sum = 0;
-
-            foreach (Student s in students)
-                sum += s.averagePoints;
-
-            Console.WriteLine($"Сумма средних баллов: {sum}");
-        }
-
-        void SaveToFile()
+            float sum = 0;            foreach (Student s in students)
+                sum += s.averagePoints;            Console.WriteLine($"Сумма средних баллов: {sum}");
+        }        void SaveToFile()           //Сохранение в файл
         {
-            string input;
-
-            Console.Write("Введите путь к файлу: ");
-
-            input = Console.ReadLine();
-
-            File.WriteAllText(input, GetAllStudentsInfo());
+            string input;            Console.Write("Введите путь к файлу: ");            input = Console.ReadLine();            File.WriteAllText(input, GetAllStudentsInfo());
             Console.WriteLine("Информация о студентах успешно сохранена");
-        }
-
-        string GetAllStudentsInfo()
+        }        string GetAllStudentsInfo()         //Переводим в строки
         {
-            string allInfo = "";
-
-            try
+            string allInfo = "";            try
             {
                 for (int i = 0; i < students.Count - 1; i++)
                     allInfo += students[i].GetStudentInfo() + "\r\n";
@@ -250,31 +282,22 @@ namespace ConsoleApp1
                 return allInfo;
             }
             return allInfo;
-        }
-
-        void Print()
+        }        void Print(List<Student> students)          //Вывод
         {
-            foreach (Student s in students)
-                s.Print();
-
-            if (students.Count == 0)
+            for (int i = 0; i < students.Count; i++)
+            {
+                Console.Write($"{i}.\t");
+                students[i].Print();
+            }            if (students.Count == 0)
                 Console.WriteLine("Список пуст!");
         }
-    }
-
-    public static class StudentsParseService
+    }    public static class StudentsParseService            //Сервис ввода студентов
     {
         public static List<Student> GetStudents()
         {
             Console.WriteLine("\tКак вы хотите ввести данные?" +
                 "\n1. С клавиатуры." +
-                "\n2. Из файла");
-
-            List<Student> students = new List<Student>();
-
-            string input = Console.ReadLine();
-
-            switch (input)
+                "\n2. Из файла");            List<Student> students = new List<Student>();            string input = Console.ReadLine();            switch (input)
             {
                 case "1":
                     students = ParseStringsToStudents(KeyboardInput());
@@ -285,45 +308,19 @@ namespace ConsoleApp1
                 default:
                     Console.WriteLine("Неизвестная команда!");
                     break;
-            }
-
-            return students;
-        }
-
-        static string KeyboardInput()
+            }            return students;
+        }        static string KeyboardInput()           //Ввод с клавиатуры
         {
-            string input;
-
-            Console.WriteLine("Введите данные построчно в следующем формате: " +
-                "\n\"ID Фамилия Имя (Отчество) ДД.ММ.ГГГГ Аббревиатура ВУЗа Курс Группа Средний балл\" или \"stop\" для окончания ввода");
-
-            string array = "";
-
-            input = Console.ReadLine();
-
-            while (input != "stop")
+            string input;            Console.WriteLine("Введите данные построчно в следующем формате: " +
+                "\n\"ID Фамилия Имя (Отчество) ДД.ММ.ГГГГ Аббревиатура ВУЗа Курс Группа Средний балл\" или \"stop\" для окончания ввода");            string array = "";            input = Console.ReadLine();            while (input != "stop")
             {
                 array += input;
-                input = Console.ReadLine();
-
-                if (input != "stop")
+                input = Console.ReadLine();                if (input != "stop")
                     array += "\r\n";
-            }
-
-            return array;
-        }
-
-        static string FileInput()
+            }            return array;
+        }        static string FileInput()           //Ввод с файла
         {
-            string input;
-
-            Console.Write("Введите путь к файлу: ");
-
-            input = Console.ReadLine();
-
-            string text = "";
-
-            try
+            string input;            Console.Write("Введите путь к файлу: ");            input = Console.ReadLine();            string text = "";            try
             {
                 text = File.ReadAllText(input);
             }
@@ -332,40 +329,24 @@ namespace ConsoleApp1
                 Console.WriteLine("Файл не найден");
             }
             return text;
-        }
-
-        static List<Student> ParseStringsToStudents(string toParse)
+        }        static List<Student> ParseStringsToStudents(string toParse)         //Деление строк на элементы для работы с ними
         {
-            List<Student> studentsParsed = new List<Student>();
-
-            foreach (string row in toParse.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+            List<Student> studentsParsed = new List<Student>();            foreach (string row in toParse.Split(new string[] { "\r\n" }, StringSplitOptions.None))
             {
                 Student parsedStudent;
                 if (TryParseStringsToStudent(row.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries), out parsedStudent))
                     studentsParsed.Add(parsedStudent);
-            }
-
-            return studentsParsed;
-        }
-
-        static bool TryParseStringsToStudent(string[] toParse, out Student student)
+            }            return studentsParsed;
+        }        static bool TryParseStringsToStudent(string[] toParse, out Student student)         //Определитель элемента
         {
-            student = new Student();
-
-            try
+            student = new Student();            try
             {
-                student.id = toParse[0];
-
-                int i;
-
-                for (i = 1; i < toParse.Length; i++)
+                student.id = toParse[0];                int i;                for (i = 1; i < toParse.Length; i++)
                     if (!toParse[i].Contains("."))
                         student.name += toParse[i] + " ";
                     else
                         break;
-                student.name = student.name.Remove(student.name.Length - 1);
-
-                student.dateOfBirth = DateTime.Parse(toParse[i]);
+                student.name = student.name.Remove(student.name.Length - 1);                student.dateOfBirth = DateTime.Parse(toParse[i]);
                 student.instute = toParse[i + 1];
                 student.course = toParse[i + 2];
                 student.group = toParse[i + 3];
@@ -378,9 +359,7 @@ namespace ConsoleApp1
             }
             return true;
         }
-    }
-
-    class Program
+    }    class Program
     {
         static void Main(string[] args)
         {
@@ -389,3 +368,5 @@ namespace ConsoleApp1
         }
     }
 }
+//Один файл
+//Оптимизировать под пользователя
