@@ -70,7 +70,7 @@ using System.Threading.Tasks;namespace ConsoleApp1
                     case "6":
                         try
                         {
-
+                            Console.Write("Введите новые данные: ");
                             averagePoints = float.Parse(Console.ReadLine());
                             Console.Write("Данные студента успешно обновлены\n");
                         }
@@ -150,8 +150,16 @@ using System.Threading.Tasks;namespace ConsoleApp1
                     case "8":
                         Console.Write("Введите дату рождения: ");
                         input = Console.ReadLine();
-                        StudentsMenu(Search(x => x.dateOfBirth == DateTime.Parse(input)));
-                        break;
+                        try
+                        {
+                            StudentsMenu(Search(x => x.dateOfBirth == DateTime.Parse(input)));
+                            break;
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Дата введена в неверном формате");
+                            break;
+                        }
                     case "9":
                         float max = students.Max(y => y.averagePoints);
                         Print(Search(x => x.averagePoints == max));
@@ -192,7 +200,7 @@ using System.Threading.Tasks;namespace ConsoleApp1
 
             string input = "";
 
-            Console.Write("Введите ID студента: ");
+            Console.Write("\nДля выхода дважды нажмите Enter. \nВведите ID студента :");
             input = Console.ReadLine();
 
             try
@@ -213,7 +221,7 @@ using System.Threading.Tasks;namespace ConsoleApp1
                 "\n1. Изменить" +
                 "\n2. Удалить");
 
-            Console.Write("\nВведите номер функции: ");
+            Console.Write("\nДля выхода дважды нажмите Enter. \nВведите номер функции: ");
             input = Console.ReadLine();
 
             switch (input)
